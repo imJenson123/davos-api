@@ -31,13 +31,9 @@ class TodoController extends Controller
     }
 
     public function markComplete(Request $request,$id){
-        $fields = [
-            'id'=>'required',
-        ];
-        $customMsg = [
-            'id.required' => 'ID is required',
-        ];
-        $this->validate($request,$fields,$customMsg);
+        if($id == null){
+            return response()->json(['message'=>'ID is Required'],404);
+        }
 
         $todo = Todo::where('id',$id)->update(['status'=>'completed']);
 
@@ -45,13 +41,9 @@ class TodoController extends Controller
     }
 
     public function delete($id){
-        $fields = [
-            'id'=>'required',
-        ];
-        $customMsg = [
-            'id.required' => 'ID is required',
-        ];
-        $this->validate($request,$fields,$customMsg);
+        if($id == null){
+            return response()->json(['message'=>'ID is Required'],404);
+        }
         
         $todo = Todo::find($id);
         $todo->delete();
